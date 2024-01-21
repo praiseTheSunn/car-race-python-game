@@ -5,14 +5,16 @@ WINDOWWIDTH = 800
 WINDOWHEIGHT = 600
 TEXTCOLOR = (255, 255, 255)
 BACKGROUNDCOLOR = (0, 0, 0)
-FPS = 40
+FPS = 60
 BADDIEMINSIZE = 10
 BADDIEMAXSIZE = 40
 BADDIEMINSPEED = 8
 BADDIEMAXSPEED = 8
-ADDNEWBADDIERATE = 6
+
+# adjust difficulty
+ADDNEWBADDIERATE = 12
 PLAYERMOVERATE = 5
-count=3
+count=5
 
 def terminate():
     pygame.quit()
@@ -144,17 +146,17 @@ while (count>0):
         if baddieAddCounter == ADDNEWBADDIERATE:
             baddieAddCounter = 0
             baddieSize =30 
-            newBaddie = {'rect': pygame.Rect(random.randint(140, 485), 0 - baddieSize, 23, 47),
+            newBaddie = {'rect': pygame.Rect(random.randint(140, 570), 0 - baddieSize, 23, 47),
                         'speed': random.randint(BADDIEMINSPEED, BADDIEMAXSPEED),
                         'surface':pygame.transform.scale(random.choice(sample), (23, 47)),
                         }
             baddies.append(newBaddie)
-            sideLeft= {'rect': pygame.Rect(0,0,126,600),
+            sideLeft= {'rect': pygame.Rect(0,-100,126,600),
                        'speed': random.randint(BADDIEMINSPEED, BADDIEMAXSPEED),
                        'surface':pygame.transform.scale(wallLeft, (126, 599)),
                        }
             baddies.append(sideLeft)
-            sideRight= {'rect': pygame.Rect(497,0,303,600),
+            sideRight= {'rect': pygame.Rect(600,-100,303,600),
                        'speed': random.randint(BADDIEMINSPEED, BADDIEMAXSPEED),
                        'surface':pygame.transform.scale(wallRight, (303, 599)),
                        }
@@ -210,6 +212,16 @@ while (count>0):
                 topScore = score
             break
 
+        if (score >= 1000):
+            # drawText('You Win', font, windowSurface, (WINDOWWIDTH / 3), (WINDOWHEIGHT / 3))
+            # drawText('Press any key to play again.', font, windowSurface, (WINDOWWIDTH / 3) - 80, (WINDOWHEIGHT / 3) + 30)
+            # pygame.display.update()
+            # time.sleep(2)
+            # waitForPlayerToPressKey()
+            # count=5
+            # # gameOverSound.stop()
+            break
+
         mainClock.tick(FPS)
 
     # "Game Over" screen.
@@ -217,6 +229,16 @@ while (count>0):
     count=count-1
     gameOverSound.play()
     time.sleep(1)
+
+    if (score >= 1000):
+        drawText('You Win', font, windowSurface, (WINDOWWIDTH / 3), (WINDOWHEIGHT / 3))
+        drawText('Press any key to play again.', font, windowSurface, (WINDOWWIDTH / 3) - 80, (WINDOWHEIGHT / 3) + 30)
+        pygame.display.update()
+        time.sleep(2)
+        waitForPlayerToPressKey()
+        count=5
+        gameOverSound.stop()
+
     if (count==0):
      laugh.play()
      drawText('Game over', font, windowSurface, (WINDOWWIDTH / 3), (WINDOWHEIGHT / 3))
@@ -226,3 +248,5 @@ while (count>0):
      waitForPlayerToPressKey()
      count=3
      gameOverSound.stop()
+
+
